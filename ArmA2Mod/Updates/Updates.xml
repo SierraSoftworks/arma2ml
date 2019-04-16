@@ -1,0 +1,460 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Updates>
+  <Latest version="1.8.6.0">
+    <Name>ArmA 2 Mod Launcher v1.8.6</Name>
+    <Description>
+      Fixes issues related to launching beta versions of Operation Arrowhead and Combined Ops
+    </Description>
+    <ChangeLog>
+      - Fixes a bug related to launching Operation Arrowhead beta versions
+    </ChangeLog>
+    <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML.exe</Download>
+    <Info>http://www.sierrasoftworks.com/arma2ml/updates/1860</Info>
+  </Latest>
+  <Archive>
+    <Application version="1.8.5.0">
+      <Name>ArmA 2 Mod Launcher v1.8.5</Name>
+      <Description>
+        Fixes issues related to Operation Arrowhead and Combined Ops
+      </Description>
+      <ChangeLog>
+        - Allows Combined Ops to be launched correctly from within the launcher
+        - Fixes an issue with exclude syntax which caused mods to not be excluded
+        correctly.
+        - Adds support for launching the games using Steam
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_185.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1850</Info>
+    </Application>
+    <Application version="1.8.4.0">
+      <Name>ArmA 2 Mod Launcher v1.8.4</Name>
+      <Description>
+        Adds the ability to get launch information from a server.
+      </Description>
+      <ChangeLog>
+        - Adds ArmA2: PMC to the list of mods that cannot be loaded
+        when specified by the server.
+        - Will not allow you to join a server that is running Operation
+        Arrowhead if you do not have it installed or are not running it.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_184.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1840</Info>
+    </Application>
+    <Application version="1.8.3.0">
+      <Name>ArmA 2 Mod Launcher v1.8.3</Name>
+      <Description>
+        Adds support for ArmA2 and ArmA2OA installs being in the same
+        folder.
+      </Description>
+      <ChangeLog>
+        - Adds support for ArmA 2 and ArmA 2: OA installations sharing
+        a folder when Combined Operations is launched.
+        This should help Sprocket users who install ArmA 2 in their
+        OA folder (which results in no ArmA 2 registry key being created).
+        - Attempts to fix a bug resuling in no mods being launched in certain
+        cases.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_183.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1830</Info>
+    </Application>
+    <Application version="1.8.2.0">
+      <Name>ArmA 2 Mod Launcher v1.8.2</Name>
+      <Description>
+        Adds methods for gathering information from the server
+        which the user specified for loading mods and implimenting
+        other features.
+      </Description>
+      <ChangeLog>
+        - Adds code for getting information about the server including
+        the currently available mods, the number of players on the server
+        etc.
+        - Adds the -showserverdetails option to display information about
+        the server that the user has chosen.
+        - Adds the -waitforemptyslot parameter which will cause the application
+        to wait for an empty slot to become available on the server before
+        attempting to join it.
+        - Note that this is not guaranteed to get you onto a busy server as
+        there may always be someone who is quicker at clicking refresh than
+        your ArmA 2 is at loading.
+        - A value can be given for this parameter which will specify the amount
+        of time the application will wait between each request to the server
+        to check the number of players. This is measured in milliseconds.
+        - If the server is currently unavailable the user may choose to wait
+        for it to become available. (This is overriden by the -y switch)
+        - Fixed a bug causing no missing mods to be displayed if the user had no
+        mods installed or none were selected with the search.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_182.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1820</Info>
+    </Application>
+    <Application version="1.8.1.0">
+      <Name>ArmA 2 Mod Launcher v1.8.1</Name>
+      <Description>
+        Adds the ability to use parameter files with command
+        line switches and to override options which are in the
+        parameter file.
+      </Description>
+      <ChangeLog>
+        - Allows paramsfile to be used with other options or on
+        its own.
+        - Allows options in the paramsfile to be overriden through
+        the use of switches
+        - Fixes possible problems with some of the command line
+        option processing code which would ignore values which
+        did not require an identifier if they were placed after
+        a switch (which didn't need a value).
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_181.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1810</Info>
+    </Application>
+    <Application version="1.8.0.0">
+        <Name>ArmA 2 Mod Launcher v1.8.0</Name>
+        <Description>
+          Adds options for connecting to servers
+        </Description>
+        <ChangeLog>
+          - Adds the -server="ip:port" option to allow
+          you to specify the server to connect to without
+          having to use -option="-server=ip" -option="-port=port"
+          - Adds the -password="" option to allow you
+          to specify a password for connecting to the server
+          - Just specifying -password without a value will cause
+          the application to prompt you for a value at runtime.
+        </ChangeLog>
+        <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_180.exe</Download>
+        <Info>http://www.sierrasoftworks.com/arma2ml/updates/1800</Info>
+    </Application>
+    <Application version="1.7.9.0">
+      <Name>ArmA 2 Mod Launcher v1.7.9</Name>
+      <Description>
+        Fixes Combined Ops launching in beta mode when -beta is
+        not specified.
+      </Description>
+      <ChangeLog>
+        - Fixes Combined Ops launching in beta mode when -beta and
+        -newest is not specified.
+        - Fixes Google Analytics tracking event being sent when -ga=off
+        is specified during an update.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_179.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1790</Info>
+    </Application>
+    <Application version="1.7.8.0">
+      <Name>ArmA 2 Mod Launcher v1.7.8</Name>
+      <Description>
+        Updates tracking code for better stability and reduced
+        latency.
+      </Description>
+      <ChangeLog>
+        - Updates the tracking code to run on a seperate thread
+        to reduce the chances of lag on slow connections.
+        - Removes a dependency on a HTTP Server file which was
+        used by the previous tracking code in case that could
+        be missing in certain cases.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_178.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1780</Info>
+    </Application>
+    <Application version="1.7.7.0">
+      <Name>ArmA 2 Mod Launcher v1.7.7</Name>
+      <Description>
+        Adds a fix for mod paths which have spaces in them.
+      </Description>
+      <ChangeLog>
+        - Adds parenthesis to mod paths which contain spaces
+        to prevent them from failing to load.
+        - Adds a -ga=full option which will additionally report
+        information about which game you are choosing to launch
+        to help us track where we should be focussing development
+        time. This option is disabled by default.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_177.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1770</Info>
+    </Application>
+    <Application version="1.7.6.0">
+      <Name>ArmA 2 Mod Launcher v1.7.6</Name>
+      <Description>
+        Adds Google Analytics code for application crashes in an
+        attempt to make it easier for us to track the stability
+        of the application. Also adds the ability to opt out of
+        Google Analytics tracking.
+      </Description>
+      <ChangeLog>
+        - Adds Google Analytics tracking code for unhandled exceptions
+        to help improve the stability of release versions.
+        - Adds a -ga="" option to disable Google Analytics should you
+        prefer not to provide this information. You can disable it
+        by adding -ga=off to your command line.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_176.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1760</Info>
+    </Application>
+    <Application version="1.7.5.0">
+      <Name>ArmA 2 Mod Launcher v1.7.5</Name>
+      <Description>
+        Adds support for launching mods from folders outside the base
+        game directories.
+      </Description>
+      <ChangeLog>
+        - Fixed incorrect location for registry items
+        (Bohemia Interactive Studios -> Bohemia Interactive Studio)
+        - Preliminary code for launching mods from folders outside the
+        base game directory through the use of the -modfolder="" option
+        (Experimental, may be removed at a later date)
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_175.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1750</Info>
+    </Application>
+    <Application version="1.7.4.0">
+      <Name>ArmA 2 Mod Launcher v1.7.4</Name>
+      <Description>
+        Major bugfix release to fix problems with launching ArmA 2
+        if the ArmA 2 game path could not be found. Also adds large
+        error handling code to allow for a "graceful" crash should
+        a problem occur.
+      </Description>
+      <ChangeLog>
+        - Adds checks for ArmA 2 and ArmA 2: OA paths before attempting
+        to launch either game.
+        - Adds global exception capture code to prevent crash dialogs
+        from appearing and to give the user time to react.
+        - Fixes a bug in the code that checks for ArmA 2 and ArmA 2: OA
+        executable files to prevent a crash in certain cases where the
+        files were missing.
+        - Fixed a small problem with how the application handled missing
+        registry keys but a present executable file in the current
+        directory (wherever the launcher is placed) which could cause
+        it to mistakenly say that the game was not present.
+        (Relapse from version 1.6.0 onwards)
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_174.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1740</Info>
+    </Application>
+    <Latest version="1.7.3.0">
+      <Name>ArmA 2 Mod Launcher v1.7.3</Name>
+      <Description>
+        Adds Google Analytics tracking to the update function to
+        better allow us to determine update statistics for the application.
+      </Description>
+      <ChangeLog>
+        - Adds Google Analytics tracking to the application.
+        - Fixes certain bugs with Registry Key handling.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_173.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1730</Info>
+    </Latest>
+    <Application version="1.7.2.0">
+      <Name>ArmA 2 Mod Launcher v1.7.2</Name>
+      <Description>
+        Functionality upgrade adding support for ArmA 2: Operation Arrowhead
+        and ArmA 2: Combined Operations as well as fixing a few small possible
+        bugs.
+      </Description>
+      <ChangeLog>
+        - Adds -oa option to launch ArmA 2: Operation Arrowhead
+        - Adds -co option to launch ArmA 2: Combined Operations
+        - Fixes a possible crash should the "beta" folder not be present.
+        - Adds checks to make sure that the application can in fact find
+        the ArmA 2 or Operation Arrowhead executables before trying to
+        launch them.
+        - More robust Registry Key handling code to reduce the chances of
+        a crash.
+        - Adds exclusion list for default Operation Arrowhead folders.
+        - Adds a check for Combined Operations to prevent the game from
+        launching if ArmA 2's directory could not be found.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_172.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1720</Info>
+    </Application>
+    <Application version="1.7.1.0">
+      <Name>ArmA 2 Mod Launcher v1.7.1</Name>
+      <Description>
+        Functionality upgrade adding support for ArmA 2: Operation Arrowhead
+        and ArmA 2: Combined Operations as well as fixing a few small possible
+        bugs.
+      </Description>
+      <ChangeLog>
+        - Adds -oa option to launch ArmA 2: Operation Arrowhead
+        - Adds -co option to launch ArmA 2: Combined Operations
+        - Fixes a possible crash should the "beta" folder not be present.
+        - Adds checks to make sure that the application can in fact find
+        the ArmA 2 or Operation Arrowhead executables before trying to
+        launch them.
+        - More robust Registry Key handling code to reduce the chances of
+        a crash.
+        - Adds exclusion list for default Operation Arrowhead folders.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_171.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1720</Info>
+    </Application>
+    <Application version="1.6.0.0">
+      <Name>ArmA 2 Mod Launcher v1.6.0</Name>
+      <Description>
+        A nother large functionality upgrade, this one adds the
+        ability to launch the application with a single file as
+        the parameter (without any identifier) where the file will
+        act as a list of parameters (with each parameter on a different
+        line). There is also the ability to copy the parameters that
+        are used to launch ArmA 2 to the clipboard for use in creating
+        shortcuts or in Steam.
+      </Description>
+      <ChangeLog>
+        - Adds a -openfolder switch which will open the ArmA 2 directory
+        (useful for people who use Steam where the ArmA 2 directory
+        may be under C:\Program Files (x86)\Steam\steamapps\commmon\arma 2"
+        - Adds a -copy switch to copy the ArmA 2 launch options to the
+        clipboard for use in creating shortcuts.
+        - Adds an anonymous parameter which can be used (alone) to open
+        a file which holds the command line switches to be processed
+        by the application. Allows you to drag and drop a file with
+        a set of preset options onto the ArmA2ML executable and have
+        them launched.
+        - Adds a -mock switch which will allow the application to imitate
+        launching ArmA 2 without performing the final launch. Useful for
+        use with the -copy switch or for debuging the output.
+        - Fixes some of the code to reduce the likelyhood of the wrong version
+        being detected when checking for updates.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_160.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1600</Info>
+    </Application>
+    <Application version="1.5.0.0">
+      <Name>ArmA 2 Mod Launcher v1.5.0</Name>
+      <Description>
+        A large functionality upgrade, adds support for mod lists in
+        text files as well as a -newest option to launch the latest
+        version of the game (Beta or Stable).
+      </Description>
+      <ChangeLog>
+        - Adds support for lists of mods in a text file where each
+        mod search appears on a different line. File should be
+        specified with the -file="" parameter.
+        - Adds a -newest switch which will launch the newest version
+        of the game (Beta or Stable) based on the application build
+        number. Will override -beta if both are used.
+        - Adds an "explicit" option to the -engine switch. Will only search
+        for mods who's names exectly match the given values (case insensitive).
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_150.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1500</Info>
+    </Application>
+    <Application version="1.4.1.0">
+      <Name>ArmA 2 Mod Launcher v1.4.1</Name>
+      <Description>
+        Quick fix for the update version in v1.4.0 appearing as v1.3.0
+        causing v1.4.0 applications to think they were out of date.
+      </Description>
+      <ChangeLog>
+        - Application will no longer say that it is out of date when
+        running the latest version.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_141.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1410</Info>
+    </Application>
+    <Application version="1.4.0.0">
+      <Name>ArmA 2 Mod Launcher v1.4.0</Name>
+      <Description>
+        This release adds the ability to disable coloured text
+        in the console.
+      </Description>
+      <ChangeLog>
+        - nocolour switch added to disable colours in the console
+        for people who prefer the default colours.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_140.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1400</Info>
+    </Application>
+    <Application version="1.3.0.0">
+      <Name>ArmA 2 Mod Launcher v1.3.0</Name>
+      <Description>
+        This release adds the ability to specify the search
+        engine that you would like to use when specifying mod
+        directories.
+      </Description>
+      <ChangeLog>
+        - engine parameter added to allow the user to specify
+        the search engine to be used when looking for mod
+        directories.
+        - RegEx will provide a more powerful search platform
+        however normal search will allow the application to
+        be more usable for people without knowledge of RegEx.
+        - If engine is not specified it will default to RegEx to
+        preserve compatibility with startup commands from
+        previous versions.
+        - Changed icon size to reduce EXE size by around 270KB for
+        quicker downloading and updating. (330KB -> 60KB)
+        - Numerous update fixes added, should be more reliable now.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_130.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1300</Info>
+    </Application>    
+    <Application version="1.2.0.0">
+      <Name>ArmA 2 Mod Launcher v1.2.0</Name>
+      <Description>
+        This release adds support for self-updating over the
+        internet as well as a few stability fixes and additional
+        startup parameters.
+      </Description>
+      <ChangeLog>
+        - Will not allow system directories (ArmA 2) to be
+        added as mods (e.g. AddOns)
+        - About page and Help page will now show the Sierra Softworks
+        project page's address
+        - Added -web argument for displaying Sierra Softworks
+        project page
+        - Added support for self-updating to the latest version
+        - Added backup of old versions during update in case of
+        failure.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_120.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1200</Info>
+    </Application>    
+    <Application version="1.1.0.0">
+      <Name>ArmA 2 Mod Launcher v1.1.0</Name>
+      <Description>
+        This is the second release of ArmA 2 Mod Launcher.
+        It adds numerous fixes and usability enhancements as 
+        well as a revised search system.
+      </Description>
+      <ChangeLog>
+        - Now uses RegEx for parsing command line arguments
+          - Now accepts command line arguments in the 
+            following forms:
+              + -arg value
+              + /arg value
+              + --arg value
+              + arg:value
+              + /arg:value
+              + --arg:value
+              + -arg=value
+              + /arg=value
+              + --arg=value
+        - Allows ! prefix for exclusion searches
+          - e.g. "-mod=!ACE" will exclude mods with the word 
+                 ACE in their name
+        - Revised logic to make use of updated command line 
+          parsing
+        - Colour text in console for enhanced readability
+        - Updated -help and -about options
+        - Highlights missing mods
+        - Highlights mods that are selected more than once 
+          by the search(es).
+        - Added -y option to disable prompts for the user.
+        - Added -silent option to disable text.
+      </ChangeLog>
+      <Download>http://www.sierrasoftworks.com/downloads/arma2ml/ArmA2ML_110.exe</Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml/updates/1100</Info>
+    </Application>    
+    <Application version="1.0.0.0">
+      <Name>ArmA 2 Mod Launcher v1.0.0</Name>
+      <Description>
+        This is the initial release of ArmA 2 mod launcher.
+      </Description>
+      <ChangeLog>
+        
+      </ChangeLog>
+      <Download></Download>
+      <Info>http://www.sierrasoftworks.com/arma2ml</Info>
+    </Application>
+  </Archive>
+</Updates>

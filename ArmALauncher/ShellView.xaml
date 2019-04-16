@@ -1,0 +1,289 @@
+﻿<metro:MetroWindow x:Class="ArmALauncher.ShellView"
+                   x:Name="this"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:metro="http://sierrasoftworks.com/sierralib/ui/metro"
+        xmlns:converters="clr-namespace:SierraLib.UI.Metro.Converters;assembly=SierraLib.UI.Metro"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+        xmlns:bis="clr-namespace:BISLib;assembly=BISLib"
+        xmlns:local="clr-namespace:ArmALauncher"
+                   Title="ArmA Launcher"
+                   TitlebarHeight="40"
+                   Width="600"
+                   Height="450" ResizeMode="CanResizeWithGrip"
+                   ShowTitleBar="False" Icon="/ArmALauncher;component/5.ico">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/SierraLib.UI.Metro;component/Styles/Colours.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/SierraLib.UI.Metro;component/Styles/Fonts.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/SierraLib.UI.Metro;component/Styles/Controls.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/SierraLib.UI.Metro;component/Styles/Controls.AnimatedTabControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/SierraLib.UI.Metro;component/Styles/Accents/BaseLight.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/SierraLib.UI.Metro;component/Styles/Accents/Red.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/SierraLib.UI.Metro;component/Resources/Icons.xaml"/>
+                <ResourceDictionary>
+
+                    <metro:BooleanVisibilityConverter x:Key="boolVis"/>
+                    
+                    <Style x:Key="TextTileStyle" TargetType="metro:Tile">
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="Width" Value="100"/>
+                        <Setter Property="Height" Value="100"/>
+                        <Setter Property="ContextMenu" Value="{Binding RelativeSource={
+                            RelativeSource FindAncestor, AncestorType=ListBox}}"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="metro:Tile">
+                                    <Grid
+                                        Background="{TemplateBinding Background}"
+                                        >
+                                        <TextBlock
+                                            FontSize="{TemplateBinding FontSize}"
+                                            Margin="3"
+                                            TextAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            TextWrapping="Wrap"
+                                            TextTrimming="CharacterEllipsis"
+                                            Text="{TemplateBinding Content}"
+                                            />
+                                    </Grid>
+
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="Button.IsPressed" Value="True">
+                                            <Setter Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <SkewTransform CenterX="0" CenterY="0"
+                                                        AngleX="0" AngleY="-0.5"/>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <Style x:Key="PinnedListStyle" TargetType="ListBox">
+                        <Setter Property="BorderBrush" Value="{x:Null}"/>
+                        <Setter Property="Background" Value="{x:Null}"/>
+                        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+                        <Setter Property="ItemsPanel">
+                            <Setter.Value>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel  IsItemsHost="True" Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="ItemContainerStyle">
+                            <Setter.Value>
+                                <Style>
+                                    
+                                </Style>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="ItemTemplate">
+                            <Setter.Value>
+                                <DataTemplate DataType="local:PinnedConfiguration">
+                                    <metro:Tile Style="{StaticResource TextTileStyle}"
+                                                Content="{Binding Name}"
+                                                Background="{Binding GameColour}"
+                                                cal:Message.Attach="LaunchGame($dataContext)"
+                                                x:Name="Tile">
+                                        <metro:Tile.ContextMenu>
+                                            <ContextMenu 
+                                                cal:Action.TargetWithoutContext="{Binding Path=DataContext, RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}">
+                                                <MenuItem
+                                                    Header="Remove this shortcut"
+                                                    cal:Message.Attach="[Event Click] = [Action RemoveShortcut($datacontext)]"/>
+                                            </ContextMenu>
+                                        </metro:Tile.ContextMenu>
+                                    </metro:Tile>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                    
+                    <Style x:Key="PlayingNotificationStyle" TargetType="Grid">
+                        <Setter Property="Background" Value="#8000"/>
+                    </Style>
+                    
+                    <Style x:Key="PlayingNotificationTextStyle" TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="30"/>
+                        <Setter Property="Foreground" Value="#fff"/>
+                        <Setter Property="Margin" Value="0,10"/>
+                    </Style>
+                    
+                    <Style x:Key="PlayingProgressStyle" TargetType="metro:ProgressRing">
+                        <Setter Property="IsActive" Value="True"/>
+                        <Setter Property="HorizontalAlignment" Value="Center"/>
+                    </Style>
+                    
+                    <Style x:Key="BackgroundTextStyle" TargetType="TextBlock">
+                        <Setter Property="HorizontalAlignment" Value="Right"/>
+                        <Setter Property="VerticalAlignment" Value="Bottom"/>
+                        <Setter Property="FontSize" Value="80"/>
+                        <Setter Property="Foreground" Value="#1000"/>
+                        <Setter Property="TextAlignment" Value="Right"/>
+                        <Setter Property="TextWrapping" Value="Wrap"/>
+                    </Style>
+                    
+                    <Style x:Key="TinyTabStyle" TargetType="{x:Type TabItem}" 
+                           BasedOn="{StaticResource SmallTabStyle}">
+                        
+                    </Style>
+                                        
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    <i:Interaction.Behaviors>
+        <metro:BorderlessWindowBehavior />
+    </i:Interaction.Behaviors>
+    
+    <metro:MetroContentControl>
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+                <ContentPresenter Grid.Row="0"
+                                Content="{Binding WindowCommands, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type metro:MetroWindow}}}" 
+                                x:Name="PART_WindowCommands"
+                                Panel.ZIndex="1"
+                                Grid.RowSpan="2"
+								VerticalAlignment="Top"
+                                HorizontalAlignment="Right"
+								Height="{Binding TitlebarHeight, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type metro:MetroWindow}}}" />
+                        
+            <Grid Grid.RowSpan="2"
+                  Style="{StaticResource PlayingNotificationStyle}"
+                  x:Name="IsBusy"
+                  Visibility="Collapsed">
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                    <metro:ProgressRing 
+                        Style="{StaticResource PlayingProgressStyle}"/>
+                    <TextBlock  x:Name="BusyMessage"
+                            Style="{StaticResource PlayingNotificationTextStyle}"
+                            Text="Loading"/>
+                </StackPanel>
+            </Grid>
+            
+            <TabControl Grid.Row="1">
+                
+                <TabItem
+                    Header="PINNED">
+                    <Grid>
+                        <TextBlock Style="{StaticResource BackgroundTextStyle}">
+                            Quick Launch<LineBreak/>
+                            Shortcuts
+                        </TextBlock>
+                        
+                        <ListBox Style="{StaticResource PinnedListStyle}"
+                        x:Name="PinnedLaunchers"/>
+                    </Grid>                    
+                </TabItem>
+
+                <TabItem
+                    Header="GAMES">
+                    <Grid>
+                        <TextBlock 
+                            Grid.ColumnSpan="100"
+                            Grid.RowSpan="100"
+                            Style="{StaticResource BackgroundTextStyle}">
+                            Installed<LineBreak/>
+                            Games
+                        </TextBlock>
+                        
+                        <TabControl Margin="0,-8"
+                                    x:Name="Games"                                    
+                                    >
+                            <TabControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type bis:Game}">
+                                    <TabItem Header="{TemplateBinding Name}">
+                                        
+                                    </TabItem>
+                                </DataTemplate>
+                            </TabControl.ItemTemplate>
+                        </TabControl>
+                    </Grid>
+                </TabItem>
+
+                <TabItem
+            Header="ABOUT">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="140"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+
+                        <TextBlock 
+                            Grid.ColumnSpan="2"
+                            Style="{StaticResource BackgroundTextStyle}">
+                            About<LineBreak/>
+                            ArmA Launcher
+                        </TextBlock>
+
+                        <StackPanel Grid.Column="0"
+                            Orientation="Vertical">
+                            <metro:Tile x:Name="LaunchWebsite"
+                                        Content="Visit our website"
+                                        Style="{StaticResource TextTileStyle}"/>
+                            <metro:Tile x:Name="LaunchEmail"
+                                        Content="Report a problem"
+                                        Style="{StaticResource TextTileStyle}"/>
+                        </StackPanel>
+                        <TextBlock
+                    Grid.Column="1"
+                    TextWrapping="Wrap"
+                    Margin="5">
+                    <Run FontSize="16">Author</Run><LineBreak/>
+                    <Bold>Sierra Softworks</Bold><LineBreak/>
+                    Copyright © Benjamin Pannell 2012<LineBreak/>
+                    All Rights Reserved<LineBreak/>
+                    <Run FontSize="16">Problems</Run><LineBreak/>
+                    Unfortunately, we cannot test ArmA Launcher on every possible system configuration
+                    and as such, you may find problems that we didn't notice during testing.<LineBreak/>
+                    If you find a problem with ArmA Launcher, please let us know so that 
+                    we can go about fixing the issue as quickly as possible for everyone else.<LineBreak/>
+
+                        </TextBlock>
+                    </Grid>
+
+                </TabItem>
+                
+                <TabItem
+                    Header="HELP">
+                    <Grid>
+                        <TextBlock Style="{StaticResource BackgroundTextStyle}">
+                            How Do I<LineBreak/>
+                            Use This Thing?
+                        </TextBlock>
+                        
+                        <TextBlock
+                            TextWrapping="Wrap"
+                            >
+                            <Bold>PINNED</Bold><LineBreak/>
+                            The pinned tab allows you to pin quick shortcuts for launching particular
+                            setups, for example, you could pin your favourite set of mods to allow you
+                            to quickly launch them whenever you start ArmA Launcher.
+                            <LineBreak/><LineBreak/>
+                            <Bold>GAMES</Bold><LineBreak/>
+                            The games tab allows you to quickly view all the mods you have installed for
+                            each of your games and launch them or pin them to the start page.<LineBreak/>
+                            You can also use the search box to quickly find a mod, or test a mod filter
+                            which can then be added to your current launch list.
+                        </TextBlock>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </metro:MetroContentControl>    
+</metro:MetroWindow>
