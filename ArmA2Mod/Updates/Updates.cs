@@ -10,7 +10,7 @@ namespace SierraLib.Settings.Updates
 {
     public sealed class Updates
     {
-        public const string UpdateURL = "http://www.sierrasoftworks.com/downloads/arma2ml/Updates.xml";
+        public const string UpdateURL = "https://cdn.sierrasoftworks.com/arma2ml/Updates.xml";
 
         static BackgroundWorker bwGet;
 

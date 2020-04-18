@@ -4,7 +4,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <OutputType>Exe</OutputType>
     <AssemblyName>ArmA2ML</AssemblyName>
-    <TargetFramework>net47</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -85,6 +85,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
+    <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
+    <PublishSingleFile>true</PublishSingleFile>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>5.ico</ApplicationIcon>
@@ -98,6 +100,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
     <PackageReference Include="BISLib" Version="1.0.1" />
+    <PackageReference Include="SierraLib.Analytics" Version="3.2.2-preview.0.2" />
     <PackageReference Include="MinVer" Version="2.2.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>

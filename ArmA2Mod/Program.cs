@@ -8,11 +8,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using PXitCore.CommandLineParsing;
-using SierraLib.Analytics.Common;
-using SierraLib.Analytics.Common.Data;
-using SierraLib.Analytics.Common.Helpers;
 using System.Net;
 using ArmA2Mod.Launcher;
+using SierraLib.Analytics;
+using SierraLib.Analytics.Google;
+using Akavache;
 
 namespace ArmA2Mod
 {
@@ -369,6 +369,8 @@ namespace ArmA2Mod
         ShortDescription = "Launch ArmA 2 through Steam",
         ValuePresence = OptionAttributeValuePresence.MustNotHaveValue)]
 
+    [SierraLib.Analytics.Google.UniversalAnalytics("UA-9682191-2")]
+    [TrackingApplication(Name = "arma2ml")]
     class Program : CommandLineBase
     {
         static string[] SystemFolders = new string[] { 
@@ -427,28 +429,28 @@ namespace ArmA2Mod
         {
             AppDomain.CurrentDomain.UnhandledException += (o, e) =>
                 {
-                    if (Options["ga"].Value.Equals("on", StringComparison.InvariantCultureIgnoreCase) || Options["ga"].Value.Equals("full", StringComparison.InvariantCultureIgnoreCase))
-                    {
+                    WriteLine("Unhandled Exception Occured:\n" + ((Exception)e.ExceptionObject).Message, red);
+                    WriteLine(((Exception)e.ExceptionObject).StackTrace, red);
+                    WriteLine();
 
-                        ConfigurationSettings.GoogleAccountCode = "UA-9682191-2";
+                    var ex = e.ExceptionObject as Exception;
+                    while (ex.InnerException != null) {
+                        ex = ex.InnerException;
 
-                        GoogleEvent gaEvent = new GoogleEvent(
-                            "http://www.sierrasoftworks.com",
-                            "Application Crashes",
-                            ((Exception)e.ExceptionObject).Message,
-                            "ArmA 2 Mod Launcher - " + AppVersion,
-                            -1);
-
-                        TrackingRequest tracking = new RequestFactory().BuildRequest(gaEvent);
-
-                        GoogleTracking.FireTrackingEventAsync(tracking);
+                        WriteLine(ex.Message, yellow);
+                        WriteLine(ex.StackTrace, yellow);
+                        WriteLine();
                     }
 
-                    WriteLine("Unhandled Exception Occured:\n" + ((Exception)e.ExceptionObject).Message,red);
                     WriteLine("Press Any Key To Exit...", red);
                     Console.ReadKey();
                     Environment.FailFast("Unhandled Exception");
                 };
+
+            BlobCache.ApplicationName = "ArmA2ML";
+            TrackingEngine.GlobalEnabled = Options["ga"].Value.Equals("on", StringComparison.InvariantCultureIgnoreCase) || Options["ga"].Value.Equals("full", StringComparison.InvariantCultureIgnoreCase);
+
+            TrackingEngine.ProcessStoredRequests();
 
             if (Options["paramsfile"].IsPresent)
             {
@@ -492,7 +494,7 @@ namespace ArmA2Mod
 
             if (Options["web"].IsPresent)
             {
-                Process.Start("http://sierrasoftworks.com/arma2ml");
+                Process.Start("https://blog.sierrasoftworks.com/arma2ml");
                 return;
             }
 
@@ -507,6 +509,11 @@ namespace ArmA2Mod
 
         }
 
+        [StartSession]
+        [Title("Update")]
+        [AppView("Update()")]
+        [TrackOnEntry]
+        [SierraLib.Analytics.Google.TrackOnException]
         private void Update()
         {
             if (Options["update"].IsPresent && !Options["update"].HasValue)
@@ -592,19 +599,7 @@ namespace ArmA2Mod
                     if (Options["debug"].IsPresent)
                         WriteLine("[Analytics] - Sending Update Started Notification", green);
 
-
-                    ConfigurationSettings.GoogleAccountCode = "UA-9682191-2";
-
-                    GoogleEvent gaEvent = new GoogleEvent(
-                        "http://www.sierrasoftworks.com",
-                        "Application Updates",
-                        "Update Started",
-                        "ArmA 2 Mod Launcher - " + AppVersion,
-                        1);
-
-                    TrackingRequest tracking = new RequestFactory().BuildRequest(gaEvent);
-
-                    GoogleTracking.FireTrackingEventAsync(tracking);
+                    TrackingEngine.TrackDefaultAsync(() => this.Update(), new Event("Application Updates", "Update Started", "ArmA 2 Mod Launcher - " + AppVersion));
 
                     if (Options["debug"].IsPresent)
                     {
@@ -680,19 +675,9 @@ namespace ArmA2Mod
                     {
                         if(Options["debug"].IsPresent)
                             WriteLine("[Analytics] - Sending Update Complete notification",green);
-                        ConfigurationSettings.GoogleAccountCode = "UA-9682191-2";
 
-                        GoogleEvent gaEvent = new GoogleEvent(
-                            "http://www.sierrasoftworks.com",
-                            "Application Updates",
-                            "Update Completed",
-                            "ArmA 2 Mod Launcher - " + AppVersion,
-                            1);
+                        TrackingEngine.TrackDefaultAsync(() => this.Update(), new Event("Application Updates", "Update Completed", "ArmA 2 Mod Launcher - " + AppVersion));
 
-                        
-                        TrackingRequest tracking = new RequestFactory().BuildRequest(gaEvent);
-
-                        GoogleTracking.FireTrackingEventAsync(tracking);
                         if (Options["debug"].IsPresent)
                             WriteLine("[Analytics] - Notification Sent", green);
                     }
@@ -753,6 +738,11 @@ namespace ArmA2Mod
             }
         }
 
+        [StartSession]
+        [Title("New Logic")]
+        [AppView("NewLogic()")]
+        [TrackOnEntry]
+        [SierraLib.Analytics.Google.TrackOnException]
         private void NewLogic()
         {
             bool beta = false;
@@ -920,10 +910,6 @@ namespace ArmA2Mod
 
             modSearches.AddRange(Options["mod"].Values);
 
-
-
-
-
             if (Options["server"].IsPresent)
             {
                 if (debug)
@@ -1004,7 +990,6 @@ namespace ArmA2Mod
                 }
             }
             
-
             //Remove any server game description mods (These can't be searched for
             foreach (string mod in ServerMods)
                 if (serverModsList.Contains(mod))
@@ -1129,9 +1114,7 @@ namespace ArmA2Mod
                 {
                     missingmodsList.Add(value);
                 }
-
             }
-
 
             //Now process the searches for server mods            
             foreach (string tmp in serverModsList)
@@ -1165,9 +1148,6 @@ namespace ArmA2Mod
                     missingmodsList.Add(tmp);
                 }
             }
-
-
-
 
             //Now remove all of the mods that should not be included from the mods lists.
             foreach (string exclude in excludeModsList)
@@ -1219,12 +1199,10 @@ namespace ArmA2Mod
                 }
             }
 
-
             if (newest)
             {
                 CheckBeta(ref beta,oa, co,silent, arma2dir, oadir);
             }
-
 
             if (beta && !silent)
             {
@@ -1243,7 +1221,6 @@ namespace ArmA2Mod
                 WriteLine();
             }
 
-            
             //Print the mods that will be loaded for the user
             if (modsList.Count > 0 && !silent)
             {
@@ -1674,6 +1651,12 @@ namespace ArmA2Mod
 
         }
 
+
+        [StartSession]
+        [Title("Library Logic")]
+        [AppView("LibraryLogic()")]
+        [TrackOnEntry]
+        [SierraLib.Analytics.Google.TrackOnException]
         private void LibraryLogic()
         {
             bool beta = false;
@@ -1976,23 +1959,10 @@ namespace ArmA2Mod
 
         private void SendGAStart(bool oa, bool co)
         {
-
-            if (Options["ga"].Value.Equals("full", StringComparison.InvariantCultureIgnoreCase))
-            {
-
-                ConfigurationSettings.GoogleAccountCode = "UA-9682191-2";
-
-                GoogleEvent gaEvent = new GoogleEvent(
-                    "http://www.sierrasoftworks.com",
-                    "Application Launches",
-                    (oa ? "ArmA 2: Operation Arrowhead" : (co ? "ArmA 2: Combined Operations" : "ArmA 2")),
-                    "ArmA 2 Mod Launcher - " + AppVersion,
-                    1);
-
-                TrackingRequest tracking = new RequestFactory().BuildRequest(gaEvent);
-
-                GoogleTracking.FireTrackingEventAsync(tracking);
-            }
+            TrackingEngine.TrackDefaultAsync(() => this.Update(), new Event(
+                "Application Launches",
+                (oa ? "ArmA 2: Operation Arrowhead" : (co ? "ArmA 2: Combined Operations" : "ArmA 2")),
+                "ArmA 2 Mod Launcher - " + AppVersion));
         }
 
         private static bool OAPresent()
